@@ -1247,7 +1247,7 @@
 
 <script lang="ts">
 import { defineComponent, toRaw, PropType } from "vue";
-import { MiniDSBase, BackgroundImageset, skyBackgroundImagesets, MINIDS_BASE_URL } from "@minids/common";
+import { MiniDSBase, BackgroundImageset, skyBackgroundImagesets, MINIDS_BASE_URL } from "@cosmicds/vue-toolkit";
 import { GotoRADecZoomParams } from "@wwtelescope/engine-pinia";
 import { Classification, SolarSystemObjects } from "@wwtelescope/engine-types";
 import { Folder, Grids, LayerManager, Planets, Poly, Settings, WWTControl, Place, Texture, CAAMoon } from "@wwtelescope/engine";
@@ -3015,7 +3015,7 @@ export default defineComponent({
 <style lang="less">
 @font-face {
   font-family: "Highway Gothic Narrow";
-  src: url("../../assets/HighwayGothicNarrow.ttf");
+  src: url("https://cosmicds.github.io/cds-website/fonts/HighwayGothicNarrow.ttf");
 }
 
 :root {
@@ -3138,7 +3138,7 @@ body {
     align-items: center;
     justify-content: center;
     .spinner {
-      background-image: url("../../assets/lunar_loader.gif");
+      background-image: url("https://cosmicds.github.io/cds-website/misc/lunar_loader.gif");
       background-repeat: no-repeat;
       background-size: contain;
       width: 3rem;
@@ -3163,7 +3163,7 @@ body {
   div {
     margin: 0;
     padding: 0;
-    background-image: url("../../assets/wwt_globe_bg.png");
+    background-image: url("https://cosmicds.github.io/cds-website/logos/wwt_globe_bg.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;

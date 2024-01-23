@@ -1,13 +1,17 @@
 {
   "version": "0.0.0",
   "dependencies": {
+    "@cosmicds/vue-toolkit": "^0.1.3",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@kyvg/vue3-notification": "^3.0.2",
-    "@minids/common": "workspace:0.0.0",
+    "@vuepic/vue-datepicker": "^7.4.1",
+    "@wwtelescope/engine-pinia": "^0.9.0",
+    "tz-lookup": "^6.1.25",
     "uuid": "^9.0.1",
     "vue": "^3.3.4",
+    "vue-slider-component": "^4.1.0-beta.7",
     "vuetify": "^3.3.14",
     "webpack-plugin-vuetify": "^2.0.1"
   },
@@ -18,6 +22,7 @@
     "serve": "./patch.sh; vue-cli-service serve"
   },
   "devDependencies": {
+    "@types/tz-lookup": "^6.1.2",
     "@types/uuid": "^9.0.4",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
