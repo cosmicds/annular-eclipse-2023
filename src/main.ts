@@ -1,8 +1,6 @@
 import Vue, { createApp } from "vue";
 
-import { IconButton } from "@minids/common";
-import { LocationSelector } from "@minids/common";
-import { FundingAcknowledgment } from "@minids/common";
+import { FundingAcknowledgment, IconButton, LocationSelector } from "@cosmicds/vue-toolkit";
 import AnnularEclipse2023 from "./AnnularEclipse2023.vue";
 import TransitionExpand from "./TransitionExpand.vue";
 import GifPlayPause from "./GifPlayPause.vue";
@@ -92,7 +90,7 @@ library.add(faStreetView);
 const update = (el: HTMLElement, binding: Vue.DirectiveBinding) => el.style.visibility = (binding.value) ? "hidden" : "";
 
 createApp(AnnularEclipse2023, {
-  wwtNamespace: "wwt-minids-annular-eclipse-2023",
+  wwtNamespace: "annular-eclipse-2023",
   // wtml: { // use this just as a test for the sun
   //   eclipse: "https://raw.githubusercontent.com/patudom/star-life-cycle/master/content/BUACStellarLifeCycles.wtml",
   // },
