@@ -145,7 +145,7 @@
             <div class="instructions-text" v-if="learnerPath=='Choose'">
               <span class="description">
                 <p v-if="queryData">
-                  <strong>{{ touchscreen ? "Tap" : "Click" }}</strong> <font-awesome-icon icon="play" size="l" class="bullet-icon"/> to "watch" the eclipse from the location shared in your link.
+                  <strong>{{ touchscreen ? "Tap" : "Click" }}</strong> <font-awesome-icon icon="play" size="lg" class="bullet-icon"/> to "watch" the eclipse from the location shared in your link.
                 </p>
                 <p>
                   <strong>{{ touchscreen ? "Tap" : "Click" }}</strong> on the map to select any <span v-if="queryData">other</span> location and view the eclipse from there.
@@ -399,7 +399,7 @@
           <v-card-text class="info-text no-bottom-border-radius">
             <v-container  id="user-guide">
               <p style="font-size: calc(1.1 * var(--default-font-size))" class="mb-5">
-                This Mini Data Story allows you to display the October 14, 2023 Annular Eclipse from any location. 
+                This Data Story allows you to display the October 14, 2023 Annular Eclipse from any location. 
               </p>
               <v-row align="center">
               <v-col cols="4">
@@ -607,10 +607,10 @@
               <div id="text-credits">
                 <h3>Credits:</h3>
 
-                <p class="mt-2">This Mini Data Story is powered by WorldWide Telescope (WWT).</p>              
+                <p class="mt-2">This Data Story is powered by WorldWide Telescope (WWT).</p>              
                 <p class="my-3">Image of Sun is courtesy of NASA/SDO and the AIA, EVE, and HMI science teams.</p>
 
-                <h4><a href="https://www.cosmicds.cfa.harvard.edu/" target="_blank" rel="noopener noreferrer">CosmicDS</a> Mini Stories Team:</h4> 
+                <h4><a href="https://www.cosmicds.cfa.harvard.edu/" target="_blank" rel="noopener noreferrer">CosmicDS</a> Team:</h4> 
                 
                 Pat Udomprasert<br>
                 Jon Carifio<br>
@@ -776,7 +776,7 @@
         </div>
         
         <div id="splash-screen-acknowledgements">
-          This Mini Data Story is brought to you by <a href="https://www.cosmicds.cfa.harvard.edu/" target="_blank" rel="noopener noreferrer">Cosmic Data Stories</a> and <a href="https://www.worldwidetelescope.org/home/" target="_blank" rel="noopener noreferrer">WorldWide Telescope</a>.
+          Brought to you by <a href="https://www.cosmicds.cfa.harvard.edu/" target="_blank" rel="noopener noreferrer">Cosmic Data Stories</a> and <a href="https://www.worldwidetelescope.org/home/" target="_blank" rel="noopener noreferrer">WorldWide Telescope</a>.
           
           <div id="splash-screen-logos">
             <credit-logos/>
@@ -3015,7 +3015,7 @@ export default defineComponent({
 <style lang="less">
 @font-face {
   font-family: "Highway Gothic Narrow";
-  src: url("https://cosmicds.github.io/cds-website/fonts/HighwayGothicNarrow.ttf");
+  src: url("https://projects.cosmicds.cfa.harvard.edu/cds-website/fonts/HighwayGothicNarrow.ttf");
 }
 
 :root {
@@ -3138,7 +3138,7 @@ body {
     align-items: center;
     justify-content: center;
     .spinner {
-      background-image: url("https://cosmicds.github.io/cds-website/misc/lunar_loader.gif");
+      background-image: url("https://projects.cosmicds.cfa.harvard.edu/cds-website/misc/lunar_loader.gif");
       background-repeat: no-repeat;
       background-size: contain;
       width: 3rem;
@@ -3163,7 +3163,7 @@ body {
   div {
     margin: 0;
     padding: 0;
-    background-image: url("https://cosmicds.github.io/cds-website/logos/wwt_globe_bg.png");
+    background-image: url("https://projects.cosmicds.cfa.harvard.edu/cds-website/logos/wwt_globe_bg.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
