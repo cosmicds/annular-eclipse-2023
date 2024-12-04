@@ -749,6 +749,20 @@
             <p class="highlight"> Annular Eclipse </p>
           </div>
         </div>
+
+        <div>
+          <v-btn
+            class="splash-get-started"
+            @click="closeSplashScreen"
+            :color="accentColor"
+            :density="xSmallSize ? 'compact' : 'default'"
+            size="x-large"
+            variant="elevated"
+            rounded="lg"
+          >
+            Get Started
+          </v-btn>
+        </div>
         
         <div id="splash-screen-acknowledgements">
           Brought to you by <a href="https://www.cosmicds.cfa.harvard.edu/" target="_blank" rel="noopener noreferrer">Cosmic Data Stories</a> and <a href="https://www.worldwidetelescope.org/home/" target="_blank" rel="noopener noreferrer">WorldWide Telescope</a>.
@@ -3502,6 +3516,14 @@ body {
     line-height: 130%;
     
   }
+
+.splash-get-started {
+  border: 2px solid white;
+  font-size: calc(1.8 * var(--default-font-size));
+  margin-top: 5%;
+  margin-bottom: 2%;
+  font-weight: bold !important;
+}
 
   #splash-screen-guide {
     margin-block: 1.5em;
