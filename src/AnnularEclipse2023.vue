@@ -2842,6 +2842,53 @@ export default defineComponent({
       }
     },
 
+    async ratingDisplaySetup() {
+      if (this.ratingOptedOut) {
+        return;
+      }
+
+      const existsResponse = await fetch(`${this.storyRatingUrl}/${this.uuid}`, {
+        method: "GET",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        headers: { "Authorization": process.env.VUE_APP_CDS_API_KEY ?? "" }
+      });
+
+      // NB: If we want to ask multiple questions, this logic can be adjusted
+      const existsContent = await existsResponse.json();
+      const exists = existsResponse.status === 200 && existsContent.ratings?.length > 0;
+
+      if (exists) {
+        return;
+      }
+
+      setTimeout(() => {
+        this.showRating = true;
+      }, 40_000);
+    },
+
+    updateUserExperienceInfo(rating: UserExperienceRating | null, comments: string | null) {
+      const body: Record<string, unknown> = {
+        uuid: this.uuid,
+        question: this.question,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        story_name: "annular-eclipse-2023",
+      };
+      if (rating) {
+        body.rating = rating;
+      }
+      if (comments) {
+        body.comments = comments;
+      }
+      fetch(this.storyRatingUrl, {
+        method: "PUT",
+        headers: {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          "Authorization": process.env.VUE_APP_CDS_API_KEY ?? "",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+    },
   },
 
   watch: {
