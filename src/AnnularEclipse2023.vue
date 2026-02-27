@@ -1235,12 +1235,60 @@
   <notifications group="copy-url" position="center top" classes="url-notification"/>
   <notifications group="geolocation-error" position="center top" />
   </div>
+
+  <v-container>
+    <v-expand-transition>
+      <user-experience
+        v-if="showRating"
+        :question="question"
+        icon-size="3x"
+        @dismiss="(_rating: UserExperienceRating | null, _comments: string | null) => {
+          showRating = false;
+        }"
+        @rating="(rating: UserExperienceRating | null) => {
+          currentRating = rating;
+          updateUserExperienceInfo(currentRating, currentComments);
+        }"
+        @finish="(rating: UserExperienceRating | null, comments: string | null) => {
+          currentRating = rating;
+          currentComments = comments;
+          updateUserExperienceInfo(currentRating, currentComments);
+          showRating = false;
+        }"
+      >
+        <template #footer>
+          <div id="user-experience-footer">
+            <v-btn
+              class="rating-opt-put"
+              color="#BDBDBD"
+              size="small"
+              variant="text"
+              @click="onOptOutClicked"
+            >
+            Don't show again
+            </v-btn>
+            <v-btn
+              class="privacy-button"
+              color="#BDBDBD"
+              href="https://www.cfa.harvard.edu/privacy-statement"
+              size="small"
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="text"
+            >
+            Privacy Policy
+            </v-btn>
+          </div>
+        </template>
+      </user-experience>
+    </v-expand-transition>
+  </v-container>
 </v-app>
 </template>
 
 <script lang="ts">
 import { defineComponent, toRaw, PropType } from "vue";
-import { MiniDSBase, BackgroundImageset, skyBackgroundImagesets, MINIDS_BASE_URL } from "@cosmicds/vue-toolkit";
+import { MiniDSBase, BackgroundImageset, skyBackgroundImagesets, MINIDS_BASE_URL, API_BASE_URL, type UserExperienceRating } from "@cosmicds/vue-toolkit";
 import { GotoRADecZoomParams } from "@wwtelescope/engine-pinia";
 import { Classification, SolarSystemObjects } from "@wwtelescope/engine-types";
 import { Folder, Grids, LayerManager, Planets, Poly, Settings, WWTControl, Place, Texture, CAAMoon } from "@wwtelescope/engine";
@@ -1399,6 +1447,14 @@ export default defineComponent({
       uuid,
       responseOptOut: responseOptOut as boolean | null,
       mcResponses,
+
+      showRating: false,
+      storyRatingUrl: `${API_BASE_URL}/annular-eclipse-2023/user-experience`,
+      currentRating: null as UserExperienceRating | null,
+      currentComments: null as string | null,
+      question: Math.random() > 0.5 ? 
+        "Does this spark your curiosity?" :
+        "Are you learning something new?",
 
       showSplashScreen: true,
       backgroundImagesets: [] as BackgroundImageset[],
