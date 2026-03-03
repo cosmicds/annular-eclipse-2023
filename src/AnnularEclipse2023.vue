@@ -4713,6 +4713,7 @@ a {
     position: absolute !important;
     color: white !important;
   }
+}
 
 .error-dialog {
   width: auto;
