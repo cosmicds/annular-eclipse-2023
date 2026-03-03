@@ -9,6 +9,7 @@ import FlipTransition from "./FlipTransition.vue";
 import ImageLabel from "./ImageLabel.vue";
 import GeolocationButton from "./GeolocationButton.vue";
 import HoverTooltip from "./HoverTooltip.vue";
+import CDSPrivacyPolicy from "./CDSPrivacyPolicy.vue";
 
 import "./polyfills";
 
@@ -133,6 +134,7 @@ createApp(AnnularEclipse2023, {
   .component('geolocation-button', GeolocationButton)
   .component('hover-tooltip', HoverTooltip)
   .component('user-experience', UserExperience)
+  .component('cds-privacy-policy', CDSPrivacyPolicy)
 
   // Mount
   .mount("#app");

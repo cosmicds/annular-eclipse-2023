@@ -1236,53 +1236,55 @@
   <notifications group="geolocation-error" position="center top" />
   </div>
 
-  <v-container>
-    <v-expand-transition>
-      <user-experience
-        v-if="showRating"
-        :question="question"
-        icon-size="3x"
-        @dismiss="(_rating: UserExperienceRating | null, _comments: string | null) => {
-          showRating = false;
-        }"
-        @rating="(rating: UserExperienceRating | null) => {
-          currentRating = rating;
-          updateUserExperienceInfo(currentRating, currentComments);
-        }"
-        @finish="(rating: UserExperienceRating | null, comments: string | null) => {
-          currentRating = rating;
-          currentComments = comments;
-          updateUserExperienceInfo(currentRating, currentComments);
-          showRating = false;
-        }"
-      >
-        <template #footer>
-          <div id="user-experience-footer">
-            <v-btn
-              class="rating-opt-put"
-              color="#BDBDBD"
-              size="small"
-              variant="text"
-              @click="onOptOutClicked"
-            >
-            Don't show again
-            </v-btn>
-            <v-btn
-              class="privacy-button"
-              color="#BDBDBD"
-              href="https://www.cfa.harvard.edu/privacy-statement"
-              size="small"
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="text"
-            >
-            Privacy Policy
-            </v-btn>
-          </div>
-        </template>
-      </user-experience>
-    </v-expand-transition>
-  </v-container>
+  <v-expand-transition>
+    <user-experience
+      v-if="showRating"
+      :question="question"
+      icon-size="3x"
+      @dismiss="(_rating: UserExperienceRating | null, _comments: string | null) => {
+        showRating = false;
+      }"
+      @rating="(rating: UserExperienceRating | null) => {
+        currentRating = rating;
+        updateUserExperienceInfo(currentRating, currentComments);
+      }"
+      @finish="(rating: UserExperienceRating | null, comments: string | null) => {
+        currentRating = rating;
+        currentComments = comments;
+        updateUserExperienceInfo(currentRating, currentComments);
+        showRating = false;
+      }"
+    >
+      <template #footer>
+        <div id="user-experience-footer">
+          <v-btn
+            class="rating-opt-put"
+            color="#BDBDBD"
+            size="small"
+            variant="text"
+            @click="() => {
+              showRating = false;
+              ratingOptOut = true;
+            }"
+          >
+          Don't show again
+          </v-btn>
+          <v-btn
+            class="privacy-button"
+            color="#BDBDBD"
+            @click="showRatingPrivacyPolicy = true"
+            @keyup.enter="showRatingPrivacyPolicy = true"
+            size="small"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+          What is this?
+          </v-btn>
+        </div>
+      </template>
+    </user-experience>
+  </v-expand-transition>
+  <cds-privacy-policy v-model="showRatingPrivacyPolicy" />
 </v-app>
 </template>
 
@@ -1370,6 +1372,7 @@ let queryData: LocationDeg | null = null;
 const USER_SELECTED = "User Selected" as const;
 const UUID_KEY = "eclipse-mini-uuid" as const;
 const OPT_OUT_KEY = "eclipse-mini-optout" as const;
+const RATING_OPT_OUT_KEY = "eclipse-mini-rating-optout" as const;
 const USER_SELECTED_LOCATIONS_KEY = "user-selected-locations" as const;
 const PRESET_LOCATIONS_KEY = "preset-locations" as const;
 const MC_RESPONSES_KEY = "mc-responses" as const;
@@ -1443,11 +1446,15 @@ export default defineComponent({
     const storedOptOut = window.localStorage.getItem(OPT_OUT_KEY);
     const responseOptOut = typeof storedOptOut === "string" ? storedOptOut === "true" : null;
 
+    const storedRatingOptOut = window.localStorage.getItem(RATING_OPT_OUT_KEY);
+    const ratingOptOut = typeof storedRatingOptOut === "string" ? storedRatingOptOut === "true" : null;
+
     return {
       uuid,
       responseOptOut: responseOptOut as boolean | null,
       mcResponses,
 
+      ratingOptOut: ratingOptOut as boolean | null,
       showRating: false,
       storyRatingUrl: `${API_BASE_URL}/annular-eclipse-2023/user-experience`,
       currentRating: null as UserExperienceRating | null,
@@ -1455,6 +1462,7 @@ export default defineComponent({
       question: Math.random() > 0.5 ? 
         "Does this spark your curiosity?" :
         "Are you learning something new?",
+      ratingTimeout: null as ReturnType<typeof setTimeout> | null,
 
       showSplashScreen: true,
       backgroundImagesets: [] as BackgroundImageset[],
@@ -1638,6 +1646,7 @@ export default defineComponent({
 
       showPrivacyDialog: false,
       showMyLocationDialog: false,
+      showRatingPrivacyPolicy: false,
 
       tab: 0,
       introSlide: 1,
@@ -1792,6 +1801,8 @@ export default defineComponent({
 
     this.showControls = !this.mobile;
     this.showGuidedContent = !this.xSmallSize;
+
+    this.ratingSetup();
 
     this.updateSkyOpacityForSunAlt(10 * D2R); // 10 degrees above horizon
 
@@ -1988,6 +1999,13 @@ export default defineComponent({
   },
 
   methods: {
+
+    clearRatingTimeout() {
+      if (this.ratingTimeout !== null) {
+        clearTimeout(this.ratingTimeout);
+        this.ratingTimeout = null;
+      }
+    },
 
     onScroll() {
       const el = document.getElementById('guided-content-container');
@@ -2842,8 +2860,9 @@ export default defineComponent({
       }
     },
 
-    async ratingDisplaySetup() {
-      if (this.ratingOptedOut) {
+    async ratingSetup() {
+      console.log(this.responseOptOut, this.ratingOptOut);
+      if (this.responseOptOut || this.ratingOptOut) {
         return;
       }
 
@@ -2861,7 +2880,7 @@ export default defineComponent({
         return;
       }
 
-      setTimeout(() => {
+      this.ratingTimeout = setTimeout(() => {
         this.showRating = true;
       }, 40_000);
     },
@@ -2906,6 +2925,16 @@ export default defineComponent({
     
     responseOptOut(optOut: boolean) {
       window.localStorage.setItem(OPT_OUT_KEY, String(optOut));
+      if (optOut) {
+        this.clearRatingTimeout();
+      }
+    },
+
+    ratingOptOut(optOut: boolean) {
+      window.localStorage.setItem(RATING_OPT_OUT_KEY, String(optOut));
+      if (optOut) {
+        this.clearRatingTimeout();
+      }
     },
 
     inIntro(value: boolean) {
@@ -4583,4 +4612,58 @@ a {
   border: 1.5px solid var(--accent-color);
 }
 
+.rating-root {
+  position: absolute !important;
+  right: 5px;
+  bottom: 0;
+  padding: 5px;
+  width: fit-content !important;
+  // left: 50%;
+  // transform: translateX(-50%);
+  gap: 0 !important;
+  border: solid 1px #EFEFEF !important;
+  border-radius: 10px !important;
+  background-color: #222222 !important;
+  opacity: 0.95 !important;
+  z-index: 20000;
+
+  .rating-title {
+    color: #EFEFEF;
+    font-size: var(--default-font-size);
+  }
+
+  .rating-icon-row {
+    
+    padding: 0px;
+
+    .svg-inline--fa {
+      height: 30px;
+    }
+  }
+
+  .comments-box {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .v-card-text {
+    padding-bottom: 0;
+  }
+
+  .v-card-actions {
+    padding: 0;
+  }
+
+  #user-experience-footer {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .close-button {
+    position: absolute !important;
+    color: white !important;
+  }
+}
 </style>
