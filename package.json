@@ -1,7 +1,7 @@
 {
   "version": "0.0.0",
   "dependencies": {
-    "@cosmicds/vue-toolkit": "~0.2.3",
+    "@cosmicds/vue-toolkit": "~0.2.5",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.3",
