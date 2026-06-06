@@ -1841,7 +1841,7 @@ export default defineComponent({
     this.showControls = !this.mobile;
     this.showGuidedContent = !this.xSmallSize;
 
-    this.ratingSetup();
+    // this.ratingSetup();
 
     this.updateSkyOpacityForSunAlt(10 * D2R); // 10 degrees above horizon
 
